@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'rank.vue'
+  name: 'rank'
 }
 </script>
 
