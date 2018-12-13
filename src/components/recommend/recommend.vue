@@ -1,35 +1,61 @@
 <template>
   <div class="recommend">
-    <div class="recommend-content">
-      <div v-if="recommends.length"   class="slider-wrapper">
-        <slider>
-          <div v-for="(item,key) in recommends" :key="key">
-            <a :href="item.linkUrl"><img :src="item.picUrl" alt=""></a>
+    <scroll ref="scroll" class="recommend-content" :data="discList">
+      <div>
+        <div v-if="recommends.length" class="slider-wrapper">
+          <slider>
+            <div v-for="(item,key) in recommends" :key="key">
+              <a :href="item.linkUrl"><img :src="item.picUrl" alt=""></a>
+            </div>
+          </slider>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <div v-show="!discList.length">
+            <loading></loading>
           </div>
-        </slider>
+          <ul>
+            <li v-for="item in discList" class="item">
+              <div class="icon">
+                <img width="60" height="60" v-lazy="item.imgurl">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <p class="desc" v-html="item.dissname"></p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script>
 import {getRecommend, getDiscList} from 'api/recommend'
+import scroll from 'base/scroll/scroll'
 import Slider from 'base/slider/slider'
 import {ERR_OK} from 'api/config'
+import loading from 'base/loading/loading'
 
 export default {
   name: 'recommend',
   data() {
     return {
-      recommends: []
+      recommends: [],
+      discList:[]
     }
   },
   components: {
-    Slider
+    Slider,
+    scroll,
+    loading
   },
   created() {
     this._getRecommend()
-    this._getDiscList()
+   setTimeout(()=>{
+     this._getDiscList()
+   },1000)
   },
   methods: {
     async _getRecommend() {
@@ -42,8 +68,8 @@ export default {
     async _getDiscList() {
       const res = await getDiscList()
       if(res.code === ERR_OK){
-        this.getList = res.data.list
-        console.log(this.getList)
+        this.discList = res.data.list
+       // console.log(this.discList)
       }
     }
   }
