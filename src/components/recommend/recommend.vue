@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       recommends: [],
-      discList:[]
+      discList: []
     }
   },
   components: {
@@ -53,9 +53,9 @@ export default {
   },
   created() {
     this._getRecommend()
-   setTimeout(()=>{
-     this._getDiscList()
-   },1000)
+    setTimeout(() => {
+      this._getDiscList()
+    }, 1000)
   },
   methods: {
     async _getRecommend() {
@@ -67,9 +67,9 @@ export default {
     },
     async _getDiscList() {
       const res = await getDiscList()
-      if(res.code === ERR_OK){
+      if (res.code === ERR_OK) {
         this.discList = res.data.list
-       // console.log(this.discList)
+        // console.log(this.discList)
       }
     }
   }
