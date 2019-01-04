@@ -1,7 +1,7 @@
 <template>
   <div>
-    <list-view :data="singers" ref="list"></list-view>
-
+    <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -28,6 +28,11 @@ export default {
     // console.log(this._nomalizeSinger(this.list))
   },
   methods: {
+    selectSinger(singer){
+      this.$router.push({
+        path:`/singer/${singer.id}`
+      })
+    },
     async _getSingerList() {
       try {
         let res = await getSingerList()
