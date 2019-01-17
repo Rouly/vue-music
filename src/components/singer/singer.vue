@@ -10,6 +10,7 @@ import {getSingerList} from 'api/singer'
 import {ERR_OK} from 'api/config'
 import Singer from 'common/js/singer'
 import ListView from 'base/listview/listview'
+import {mapMutations} from 'vuex'
 
 const HOT_NAME = '热门'
 const HOT_SINGER_LEN = 10
@@ -28,18 +29,22 @@ export default {
     // console.log(this._nomalizeSinger(this.list))
   },
   methods: {
+    ...mapMutations({
+      setSinger:'SET_SINGER'
+    }),
     selectSinger(singer){
       this.$router.push({
         path:`/singer/${singer.id}`
       })
+      this.setSinger(singer)
     },
     async _getSingerList() {
       try {
         let res = await getSingerList()
-        console.log(res)
+        // console.log(res)
         if (res.code === ERR_OK) {
           this.singers = this._nomalizeSinger(res.data.list)
-          console.log(this.singers)
+          // console.log(this.singers)
         }
       } catch (e) {
         console.log(e)

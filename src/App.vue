@@ -22,6 +22,5 @@ export default {
 </script>
 
 <style lang="stylus">
-  #app
-    color: #f00
+
 </style>
